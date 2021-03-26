@@ -1,24 +1,30 @@
 
-# FHIR を利用した患者ケアの追跡：開発環境テンプレート
+# FHIR R4 リソースリポジトリと FHIR サーバサイドアプリケーションを利用したデータ追跡を簡単に試せる開発環境テンプレート
 
-このサンプルでは、FHIRリソースリポジトリを利用して、新生児の患者基本情報登録／更新（[Patient リソース](http://www.hl7.org/fhir/patient.html)の登録）とパルスオキシメーターで測定した血中飽和酸素度の登録（[Observation リソース](http://www.hl7.org/fhir/observation.html)の登録）を行いながら、血中飽和酸素度が 90% 未満となった場合に HL7 2.5:SIU_S12 メッセージをファイル出力する流れをご体験いただけます。
+開発環境テンプレートは、コンテナで動作します。
+
+コンテナのビルドによって、FHIR R4 リソースリポジトリの準備と、FHIR R4 リソースに対応したサンプル Web アプリケーションを準備します。
+
+コンテナのビルド後の開始では、FHIRリソースデータは登録されていませんので、[サンプル Web アプリケーションから登録](#サンプル-Web-アプリケーションについて)したり、[RESTクライアントを利用して登録](#rest-クライアントを利用して-fhir-リソースへのアクセスを試される場合)したり、お好みの方法でお試しいただけます。
+
+
+この他、コンテナビルド時に FHIR サーバーサイドアプリケーションサンプルの例として、新生児につけたパルスオキシメーターの飽和酸素度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力するプロダクションサンプル（Interoperabilityメニュー）も一緒に準備しています。
+
+[詳細は後述](#FHIR-サーバサイドアプリケーション（飽和酸素度の追跡と-HL7-メッセージの出力）について)します。
 
 
 
-**サンプルアプリケーションの流れ概要**
-
-![](./ReadmeImages/under90image.png)
+**処理概要（イメージ図）**
+![](./ReadmeImages/templateapp-image.png)
 
 
 
 この Git のサンプルはコンテナをビルドするだけで開始できます（[docker-compose.yml](./docker-compose.yml) を利用しています）。
 
-コンテナビルド時、FHIR R4 リポジトリの準備と、Patient／Observation リソースの登録や参照のための Web アプリケーションのインストール、飽和酸素度が 90% 未満となる場合に HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力を行うプロダクションサンプル（Interoperabilityメニュー）が準備されます。
-
 
 ## テンプレートで使用している FHIR R4 リポジトリ
 
-InterSystems IRIS for Health を使用しています（コンテナビルド時に FHIR R4 リポジトリ用の必要な設定を行っています）。
+InterSystems IRIS for Health コミュニティエディションを使用しています（コンテナビルド時に FHIR R4 リソースリポジトリ用の必要な設定を行っています）。
 
 
 ## テンプレートを動かすための必要な環境
@@ -91,12 +97,23 @@ $ docker-compose down
 
 ## サンプル Web アプリケーションについて
 
-コンテナビルド時、[OpenExchange](https://openexchange.intersystems.com/) に公開されている [iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) をインストールし（[zpmコマンド](https://openexchange.intersystems.com/package/ObjectScript-Package-Manager)を利用）、飽和酸素度チェック用プロダクション（Interoperabilityメニュー）のテーマに合わせ少しウェブアプリケーションの表示項目や動作に改良を加えています。
+サンプル Web アプリケーションでは、新生児の患者基本情報登録／更新（[Patient リソース](http://www.hl7.org/fhir/patient.html)の登録）とパルスオキシメーターで測定した血中飽和酸素度の登録（[Observation リソース](http://www.hl7.org/fhir/observation.html)の登録）が行えます。
 
 
-[iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) について詳しくは、開発者の[Henrique Goncalves Dias](https://community.intersystems.com/user/henrique-dias-2)さんによる[日本語による概要解説](https://jp.community.intersystems.com/node/480901)もあります。
+**サンプルアプリケーション　イメージ図**
 
-ぜひご参照ください。
+![](./ReadmeImages/under90image.png)
+
+
+
+>*補足*
+>
+>コンテナビルド時、[OpenExchange](https://openexchange.intersystems.com/) に公開されている [iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) をインストールし（[zpmコマンド](https://openexchange.intersystems.com/package/ObjectScript-Package-Manager)を利用）、飽和酸素度チェック用プロダクション（Interoperabilityメニュー）のテーマに合わせ少しウェブアプリケーションの表示項目や動作に改良を加えています。
+
+
+>[iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) について詳しくは、開発者の[Henrique Goncalves Dias](https://community.intersystems.com/user/henrique-dias-2)さんによる[日本語による概要解説](https://jp.community.intersystems.com/node/480901)もあります。
+>
+>ぜひご参照ください。
 
 
 サンプル Web アプリケーションは以下URLで起動します。
@@ -227,4 +244,43 @@ POST実行後、HTTP ステータスに 201 Created が返れば成功です。
 
 POST実行後、HTTP ステータスに 200 OK が返れば成功です。
 また、応答メッセージを確認すると Patient／Observation それぞれの登録に対して、HTTP ステータス 201 が返送されていることが確認できます。
+
+
+
+## FHIR サーバサイドアプリケーション（飽和酸素度の追跡と HL7 メッセージの出力）について
+
+開発環境テンプレートの FHIR R4 リソースリポジトリでは、InterSystems IRIS for Health コミュニティエディション（以降 IRIS for Health）を使用しています。
+
+IRIS for Health では、FHIR R4 リソースリポジトリの提供の他に、FHIR サーバーサイドアプリケーションの開発も行え、テンプレートには、新生児につけたパルスオキシメーターの飽和酸素度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力するプロダクションサンプル（Interoperabilityメニュー以下で作成するサンプル）も含まれます。
+
+IRIS for Health では、FHIR R4 リソースリポジトリを用意すると同時に REST のエンドポイントも作成します。
+
+FHIR R4 リソースリポジトリのエンドポイントが提供されている環境に、以下の図のようなプロダクション定義が登録されていると、REST で依頼された FHIR R4 リソースリポジトリの処理は、プロダクションのビジネスサービスに送信されるようになります。
+
+![](./ReadmeImages/PatientPost.png)
+**図：プロダクション定義**
+
+
+プロダクションでは、FHIR R4 リソースリポジトリにリクエストされた HTTP メソッドの依頼の他に、必要に応じて FHIR サーバーサイドアプリケーションを追加できます。
+
+
+テンプレートの中では、パルスオキシメーターの飽和酸素度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力する流れを追加しています。
+
+以下画面イメージは、測定値のチェックを行っているビジネスプロセスエディタの例と、90% 未満だった場合のデータ変換エディタの例です。
+
+![](./ReadmeImages/BPL-DTL.png)
+
+
+
+この流れは、サンプル Web アプリケーションを使用して簡単に確認できます。
+
+以下画面イメージは、適正値（飽和酸素度が 90% 以上）の場合のトレース例です。
+
+![](./ReadmeImages/90Over-interoperability.png)
+
+
+
+以下の画面イメージは、適正値（飽和酸素度が 90% ）を下回る場合 HL7 出力の流れを確認できるメッセージのトレース例です。
+
+![](./ReadmeImages/90Under-Interoperability.png)
 
