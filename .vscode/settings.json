@@ -1,0 +1,39 @@
+{
+    "files.associations": {
+    
+        "Dockerfile*": "dockerfile",
+        "iris.script": "objectscript"
+      },
+      "objectscript.serverSideEditing": true,
+    "objectscript.conn" :{
+      "ns": "R4FHIRNamespace",
+      "username": "_SYSTEM",
+      "password": "SYS",
+      "docker-compose": {
+        "service": "iris1",
+        "internalPort": 52773
+      },
+      "links": {
+        "Production": "http://localhost:${port}/csp/healthshare/r4fhirnamespace/EnsPortal.ProductionConfig.zen",
+        "★iris-fhir-portal":"http://localhost:${port}/fhir/portal/patientlist.html"
+      },
+      "active": true
+    }, 
+
+    "sqltools.connections": [
+      {
+        "namespace": "R4FHIRNamespace",
+        "connectionMethod": "Server and Port",
+        "showSystem": false,
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 62773,
+        "askForPassword": false,
+        "driver": "InterSystems IRIS",
+        "name": "objectscript-docker",
+        "username": "_SYSTEM",
+        "password": "SYS"
+      }
+    ]
+
+}
