@@ -30,6 +30,8 @@ InterSystems IRIS for Health コミュニティエディションを使用して
 
 docker / docker-compose / git / VSCode がインストールされた環境をご準備ください。
 
+VSCode では、ObjectScript エクステンションを使用します。インストール方法／接続先設定方法については[こちらの記事](https://jp.community.intersystems.com/node/482976)をご参照ください。
+
 
 
 ## コンテナ開始までの手順
