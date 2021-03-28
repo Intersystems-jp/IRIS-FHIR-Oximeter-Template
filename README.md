@@ -219,7 +219,7 @@ URLに http://localhost:62773/csp/healthshare/r4fhirnamespace/fhir/r4/Observatio
 
 **Body**に [SampleResourceフォルダにある Observation 新規登録用JSON](./SampleResource/test_Observartion_Refer_Patient_1.json)の中身を貼り付けます。
 
-[サンプルJSON](./src/SampleResource/test_Observartion_Refer_Patient_1.json) の 56行目に、(1)　の Patientリソース の POST 実行で付与されるリソース ID（例では 5）を *Patient/5* のように設定しています。
+[サンプルJSON](./SampleResource/test_Observartion_Refer_Patient_1.json) の 56行目に、(1)　の Patientリソース の POST 実行で付与されるリソース ID（例では 5）を *Patient/5* のように設定しています。
 
 POST実行後、HTTP ステータスに 201 Created が返れば成功です。
 
