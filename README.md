@@ -8,9 +8,9 @@
 コンテナのビルド後の開始では、FHIRリソースデータは登録されていませんので、[サンプル Web アプリケーションから登録](#サンプル-Web-アプリケーションについて)したり、[RESTクライアントを利用して登録](#rest-クライアントを利用して-fhir-リソースへのアクセスを試される場合)したり、お好みの方法でお試しいただけます。
 
 
-この他、コンテナビルド時に **FHIR サーバーサイドアプリケーション**サンプルとして、新生児につけたパルスオキシメーターの飽和酸素度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力するプロダクションサンプル（Interoperabilityメニュー）も一緒に準備しています。
+この他、コンテナビルド時に **FHIR サーバーサイドアプリケーション**サンプルとして、新生児につけたパルスオキシメーターの血中酸素飽和度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力するプロダクションサンプル（Interoperabilityメニュー）も一緒に準備しています。
 
-[詳細は後述](#fhir-サーバサイドアプリケーション飽和酸素度の追跡と-hl7-メッセージの出力について)します。
+[詳細は後述](#fhir-サーバサイドアプリケーション血中酸素飽和度の追跡と-hl7-メッセージの出力について)します。
 
 
 
@@ -98,7 +98,7 @@ $ docker-compose down
 
 ## サンプル Web アプリケーションについて
 
-サンプル Web アプリケーションでは、新生児の患者基本情報登録／更新（[Patient リソース](http://www.hl7.org/fhir/patient.html)の登録）とパルスオキシメーターで測定した血中飽和酸素度の登録（[Observation リソース](http://www.hl7.org/fhir/observation.html)の登録）が行えます。
+サンプル Web アプリケーションでは、新生児の患者基本情報登録／更新（[Patient リソース](http://www.hl7.org/fhir/patient.html)の登録）とパルスオキシメーターで測定した血中酸素飽和度の登録（[Observation リソース](http://www.hl7.org/fhir/observation.html)の登録）が行えます。
 
 
 **サンプルアプリケーション　イメージ図**
@@ -109,7 +109,7 @@ $ docker-compose down
 
 >*補足*
 >
->コンテナビルド時、[OpenExchange](https://openexchange.intersystems.com/) に公開されている [iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) をインストールし（[zpmコマンド](https://openexchange.intersystems.com/package/ObjectScript-Package-Manager)を利用）、飽和酸素度チェック用プロダクション（Interoperabilityメニュー）のテーマに合わせ少しウェブアプリケーションの表示項目や動作に改良を加えています。
+>コンテナビルド時、[OpenExchange](https://openexchange.intersystems.com/) に公開されている [iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) をインストールし（[zpmコマンド](https://openexchange.intersystems.com/package/ObjectScript-Package-Manager)を利用）、血中酸素飽和度チェック用プロダクション（Interoperabilityメニュー）のテーマに合わせ少しウェブアプリケーションの表示項目や動作に改良を加えています。
 >
 >
 >[iris-fhir-portal](https://openexchange.intersystems.com/package/iris-fhir-portal) について詳しくは、開発者の[Henrique Goncalves Dias](https://community.intersystems.com/user/henrique-dias-2)さんによる[日本語による概要解説](https://jp.community.intersystems.com/node/480901)もあります。
@@ -150,9 +150,9 @@ Web アプリケーションの左画面の「患者検索」のテキストボ�
 ![](./ReadmeImages/PatientGet.png)
 
 
-### (3) Patient リソースの更新と、飽和酸素度の登録（Observation リソースの登録）
+### (3) Patient リソースの更新と、血中酸素飽和度の登録（Observation リソースの登録）
 
-左画面の検索結果一覧クリック後、右画面の「血中飽和酸素度の選択」のスライドバーを利用して濃度を指定し、「Update」ボタンをクリックします。
+左画面の検索結果一覧クリック後、右画面の「血中酸素飽和度の選択」のスライドバーを利用して濃度を指定し、「Update」ボタンをクリックします。
 
 
 Bundleリソースを利用して、FHIRリポジトリにPatientリソースの更新情報とObservationリソースの情報を登録します。
@@ -248,13 +248,13 @@ POST実行後、HTTP ステータスに 200 OK が返れば成功です。
 
 
 
-## FHIR サーバサイドアプリケーション（飽和酸素度の追跡と HL7 メッセージの出力）について
+## FHIR サーバサイドアプリケーション（血中酸素飽和度の追跡と HL7 メッセージの出力）について
 
 開発環境テンプレートの FHIR R4 リソースリポジトリでは、InterSystems IRIS for Health コミュニティエディション（以降 IRIS for Health）を使用しています。
 
 IRIS for Health では、FHIR R4 リソースリポジトリの提供の他に、FHIR サーバーサイドアプリケーションの開発も行えます。
 
-このテンプレートには、新生児につけたパルスオキシメーターの飽和酸素度が 90% 未満となる場合に、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力するプロダクションサンプル（Interoperabilityメニュー以下で作成するサンプル）が含まれています。
+このテンプレートには、新生児につけたパルスオキシメーターの血中酸素飽和度が 90% 未満となる場合に、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力するプロダクションサンプル（Interoperabilityメニュー以下で作成するサンプル）が含まれています。
 
 IRIS for Health では、FHIR R4 リソースリポジトリを用意すると同時に REST のエンドポイントも作成します。
 
@@ -271,7 +271,7 @@ https://www.youtube.com/watch?v=2Yel7NWUui4&t=463s
 プロダクションでは、入力された FHIR リソースを FHIR R4 リソースリポジトリに処理を依頼する他に、必要に応じて **FHIR サーバーサイドアプリケーションを追加できます。**
 
 
-テンプレートの中では、パルスオキシメーターの飽和酸素度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力する流れを追加しています。
+テンプレートの中では、パルスオキシメーターの血中酸素飽和度が 90% 未満となる場合、HL7 の 2.5:SIU_S12 メッセージを作成しファイル出力する流れを追加しています。
 
 以下画面イメージは、測定値のチェックを行っているビジネスプロセスエディタの例と、90% 未満だった場合のデータ変換エディタの例です。
 
@@ -289,12 +289,12 @@ https://youtu.be/2Yel7NWUui4?t=597
 https://www.youtube.com/watch?v=2Yel7NWUui4&t=780s
 
 
-以下画面イメージは、適正値（飽和酸素度が 90% 以上）の場合のトレース例です。
+以下画面イメージは、適正値（血中酸素飽和度が 90% 以上）の場合のトレース例です。
 
 ![](./ReadmeImages/90Over-interoperability.png)
 
 
-以下の画面イメージは、適正値（飽和酸素度が 90% ）を下回る場合 HL7 出力の流れを確認できるメッセージのトレース例です。
+以下の画面イメージは、適正値（血中酸素飽和度が 90% ）を下回る場合 HL7 出力の流れを確認できるメッセージのトレース例です。
 
 ![](./ReadmeImages/90Under-Interoperability.png)
 

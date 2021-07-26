@@ -15,7 +15,7 @@
       },
       "links": {
         "Production": "http://localhost:${port}/csp/healthshare/r4fhirnamespace/EnsPortal.ProductionConfig.zen",
-        "★iris-fhir-portal":"http://localhost:${port}/fhir/portal/patientlist.html"
+        "★iris-fhir-portal": "http://localhost:${port}/fhir/portal/patientlist.html"
       },
       "active": true
     }, 
